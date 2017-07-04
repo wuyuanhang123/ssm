@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd     
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<!-- 自动扫描该包，SpringMVC会将包下用了@controller注解的类注册为Spring的controller -->
+
+	<!-- 设置默认配置方案 -->
+	<mvc:annotation-driven />
+	<!-- 使用默认的Servlet来响应静态文件 -->
+	<mvc:default-servlet-handler />
+	
+	<context:component-scan base-package="com.project.hrm.Controller" />
+	<!-- 定义Spring MVC的拦截器 -->
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<!-- 拦截所有请求 -->
+    		<mvc:mapping path="/**"/>
+    		<!-- 自定义判断用户权限的拦截类 -->  
+    	 	<bean class="com.project.hrm.interceptor.Authorizedlnterceptor"/>
+    	</mvc:interceptor>
+    </mvc:interceptors>
+	<!-- 视图解析器 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 前缀 -->
+	<property name="prefix" value="/WEB-INF/jsp/" />
+	 	<property name="suffix" value=".jsp" />
+	</bean>
+    <bean id="multipartResolver"  
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+
+        <property name="maxUploadSize">  
+            <value>10485760</value>  
+        </property>  
+
+        <property name="defaultEncoding">
+        	<value>UTF-8</value>
+        </property>
+    </bean>
+
+</beans>
