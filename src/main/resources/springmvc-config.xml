@@ -45,5 +45,6 @@
         	<value>UTF-8</value>
         </property>
     </bean>
-
+<!--定义统一异常处理器-->
+    <bean class="exception.CustomExceptionResolver"></bean>
 </beans>
